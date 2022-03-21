@@ -23,7 +23,7 @@
 
 <style>
 body {
-	background-color: #cfd8dc;
+	background-image: linear-gradient(to right, #5f6a6a, #e5e8e8);
 }
 
 .list-group-item {

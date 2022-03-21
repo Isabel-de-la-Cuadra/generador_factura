@@ -8,17 +8,23 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.desafiolatam.models.Producto;
 
 
-@WebServlet("/")
+@WebServlet("/calculadora")
 public class CalculadoraVentas extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		//Crear variable de session y evitar que ingresen directo por la URL
+		HttpSession session = request.getSession();
+		String sessionNombre = (String) session.getAttribute("Nombre");
 		
+		if(sessionNombre !=null) {
 		ArrayList<Producto> listaProductos = new ArrayList<Producto>();
 
 		Producto producto01 = new Producto("Válvulas Titanio", "Válvulas de carrera", 120000, "valvula");
@@ -37,7 +43,11 @@ public class CalculadoraVentas extends HttpServlet {
 		
 		request.setAttribute("listaProductos", listaProductos);
 		request.getRequestDispatcher("formularioIngreso.jsp").forward(request, response);
-	
+		}else {
+			request.setAttribute("msgError","No tienes permiso para ingresar a esta parte");
+			request.getRequestDispatcher("/").forward(request, response);
+		}
+		
 	}
 
 	
